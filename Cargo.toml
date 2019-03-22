@@ -1,8 +1,9 @@
 [package]
 name = "cmd-handler"
 version = "0.1.0"
+description = "A distillation of a command-line handler pattern from the ffsend utility."
 authors = ["Eric Rochester <erochest@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-
+clap = "2.32.0"

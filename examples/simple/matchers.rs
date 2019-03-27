@@ -1,11 +1,7 @@
 use clap::ArgMatches;
-use crate::cmd::args::{ArgName, ArgType, CmdArgOption};
-use cmd_handler::BarType;
-use cmd_handler::actions::{Foo, Bar};
-
-pub trait Matcher<'a>: Sized {
-    fn with(matches: &'a ArgMatches) -> Option<Self>;
-}
+use crate::actions::{Foo, Bar, BarType};
+use crate::args::{ArgName, ArgType};
+use cmd_handler::{CmdArgOption, Matcher};
 
 pub struct FooMatchers<'a> {
     matches: &'a ArgMatches<'a>,
@@ -45,8 +41,8 @@ impl<'a: 'b, 'b> BarMatchers<'a> {
     }
 }
 
-impl<'a> Matcher<'a> for BarMatchers<'a> {
-    fn with(matches: &'a ArgMatches) -> Option<Self> {
+impl<'a> BarMatchers<'a> {
+    pub fn with(matches: &'a ArgMatches) -> Option<Self> {
         matches
             .subcommand_matches("bar")
             .map(|matches| BarMatchers { matches })

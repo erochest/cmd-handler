@@ -1,5 +1,6 @@
 use clap::{App, SubCommand};
-use crate::cmd::args::{ArgName, ArgType, CmdArg};
+use crate::args::{ArgName, ArgType};
+use cmd_handler::CmdArg;
 
 pub struct CmdFoo;
 
@@ -17,9 +18,10 @@ pub struct CmdBar;
 impl CmdBar {
     pub fn build<'a, 'b>() -> App<'a, 'b> {
         SubCommand::with_name("bar")
-            .about("Bar")
+            .about("bar")
             .visible_alias("b")
             .arg(ArgName::build())
             .arg(ArgType::build())
     }
 }
+

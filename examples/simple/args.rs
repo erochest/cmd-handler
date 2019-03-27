@@ -1,26 +1,6 @@
-use clap::{Arg, ArgMatches};
-use cmd_handler::BarType;
-
-pub trait CmdArg {
-    fn name() -> &'static str;
-    fn build<'a, 'b>() -> Arg<'a, 'b>;
-}
-
-pub trait CmdArgFlag: CmdArg {
-    fn is_present(matches: &ArgMatches) -> bool {
-        matches.is_present(Self::name())
-    }
-}
-
-pub trait CmdArgOption<'a>: CmdArg {
-    type Value;
-
-    fn value<'b: 'a>(matches: &'a ArgMatches<'b>) -> Self::Value;
-
-    fn value_raw<'b: 'a>(matches: &'a ArgMatches<'b>) -> Option<&'a str> {
-        matches.value_of(Self::name())
-    }
-}
+use clap::{ArgMatches, Arg};
+use crate::actions::BarType;
+use cmd_handler::{CmdArg, CmdArgOption};
 
 pub struct ArgName;
 
@@ -30,7 +10,7 @@ impl CmdArg for ArgName {
     }
 
     fn build<'a, 'b>() -> Arg<'a, 'b> {
-        Arg::with_name("name")
+        Arg::with_name(ArgName::name())
             .long("name")
             .short("n")
             .help("The name.")
@@ -55,7 +35,7 @@ impl CmdArg for ArgType {
     }
 
     fn build<'a, 'b>() -> Arg<'a, 'b> {
-        Arg::with_name("type")
+        Arg::with_name(ArgType::name())
             .long("type")
             .short("t")
             .help("The type of bar.")
